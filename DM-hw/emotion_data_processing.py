@@ -27,16 +27,16 @@ def get_major_content(url):
             if T2_name[idx][0] == line[0]:
                 content.append([line[4],T2_name[idx][1]])
 
-    data = pd.DataFrame(content, columns = ["content","jixing"])
-    return data
+    return content
 
 if __name__ == "__main__":
 
-    df = 0
+    cur = []
     for i in range(1,10):
         url = '%d.ann'%i
         next = get_major_content(url)
-        if df == 0: df = next
         if next is not None:
-            merge = [next, df]
-            print pd.concat(merge)
+            cur.extend(next)
+
+    data = pd.DataFrame(cur, columns=["content", "jixing"])
+    print data
