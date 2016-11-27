@@ -33,7 +33,7 @@ def get_major_content(url):
 if __name__ == "__main__":
 
     cur = []
-    for i in range(1, 34):
+    for i in range(1, 44):
         url = '%d.ann' % i
         next = get_major_content(url)
         if next is not None:
