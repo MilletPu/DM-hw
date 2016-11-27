@@ -6,7 +6,7 @@ import pandas as pd
 
 def get_major_content(url):
     if os.path.exists(url):
-        file = open(url)
+        file = open(url)  #
         line_split = [line.strip().split() for line in file.readlines()]
         file.close()
     else:
