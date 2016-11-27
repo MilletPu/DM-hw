@@ -6,11 +6,11 @@ import pandas as pd
 
 def get_major_content(url):
     if os.path.exists(url):
-        file = open(url)  #
+        file = open(url)
         line_split = [line.strip().split() for line in file.readlines()]
         file.close()
     else:
-        return #
+        return
 
     T1_name = []  # 存放正极性标识 [ ['T1' , 1], ['T2', 1],... ]
     T2_name = []  # 存放负极性标识 [ ['T1' , -1], ['T2', -1],... ]
