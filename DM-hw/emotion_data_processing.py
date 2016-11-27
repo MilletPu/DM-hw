@@ -5,7 +5,6 @@ import pandas as pd
 
 
 def get_major_content(url):
-
     if os.path.exists(url):
         file = open(url)
         line_split = [line.strip().split() for line in file.readlines()]
@@ -27,11 +26,17 @@ def get_major_content(url):
         for idx in range(len(T2_name)):
             if T2_name[idx][0] == line[0]:
                 content.append([line[4],T2_name[idx][1]])
-    data = pd.DataFrame(content,columns = ["content","jixing"])
 
-    return data
+    return content
 
 if __name__ == "__main__":
-    i = 33
-    url = '%d.ann'%i
-    print get_major_content(url)
+
+    cur = []
+    for i in range(1,10):
+        url = '%d.ann'%i
+        next = get_major_content(url)
+        if next is not None:
+            cur.extend(next)
+
+    data = pd.DataFrame(cur, columns=["content", "jixing"])
+    print data
