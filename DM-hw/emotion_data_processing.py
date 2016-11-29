@@ -80,28 +80,26 @@ def get_all_jixings_vector(all_comments):
 
 
 if __name__ == "__main__":
-    # all_comments = get_all_comments()
-    # texts = get_all_comments_seg_vector(all_comments)
-    # jixings = get_all_jixings_vector(all_comments)
-    #
-    # cv = CountVectorizer()
-    # X_train = cv.fit_transform(texts)
-    # y_train = jixings
-    # nb = naive_bayes.MultinomialNB()
-    # nb.fit(X_train, y_train)
-    #
-    #
-    # print(X_train.toarray())
-    # X_test = CountVectorizer().fit_transform(["大厅 真 不错"])
-    #
-    # y_predicted = nb.predict(X_test)
-    # print y_predicted
+    all_comments = get_all_comments()
+    texts = get_all_comments_seg_vector(all_comments)
+    jixings = get_all_jixings_vector(all_comments)
 
-    texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
     cv = CountVectorizer()
     X_train = cv.fit_transform(texts)
-    y_train = [1,2,3,4]
+    y_train = jixings
     nb = naive_bayes.MultinomialNB()
     nb.fit(X_train, y_train)
-    y_pre = nb.predict(cv.fit_transform(["dog cat fish bird"])) # 必须要有所有的词才可以预测，所以必须平滑
-    print y_pre
+
+    X_test = CountVectorizer().fit_transform(texts + ["酒店 很 不好"]) # 训练数据没有'垃圾'这词
+
+    y_predicted = nb.predict(X_test)[-1]
+    print y_predicted
+
+    # texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
+    # cv = CountVectorizer()
+    # X_train = cv.fit_transform(texts)
+    # y_train = [1,2,3,4]
+    # nb = naive_bayes.MultinomialNB()
+    # nb.fit(X_train, y_train)
+    # y_pre = nb.predict(cv.fit_transform(texts + ["cat fish bird"])) # 必须要有所有的词才可以预测，所以必须平滑
+    # print y_pre
