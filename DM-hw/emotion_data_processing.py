@@ -64,7 +64,6 @@ def cut_all_comments(all_comments):
 def get_all_comments_seg_vector(all_comments):
     all_comments_seg = cut_all_comments(all_comments)
     all_comments_seg_vector = []
-    all_jixing_vector = []
     for comments_seg in range(len(all_comments_seg)):
         texts = all_comments_seg.values[comments_seg][0]
         all_comments_seg_vector.append(texts)
@@ -79,7 +78,8 @@ def get_all_jixings_vector(all_comments):
     return all_jixing
 
 
-if __name__ == "__main__":
+def predict_jixing(test_comment):
+    global pre_jixing
     all_comments = get_all_comments()
     texts = get_all_comments_seg_vector(all_comments)
     jixings = get_all_jixings_vector(all_comments)
@@ -90,16 +90,26 @@ if __name__ == "__main__":
     nb = naive_bayes.MultinomialNB()
     nb.fit(X_train, y_train)
 
-    X_test = CountVectorizer().fit_transform(texts + ["酒店 很 不好"]) # 训练数据没有'垃圾'这词
-
+    X_test = cv.fit_transform(texts + [test_comment]) # 训练数据没有'垃圾'这词
     y_predicted = nb.predict(X_test)[-1]
-    print y_predicted
+
+    if y_predicted == 1: pre_jixing = 'Positive'
+    if y_predicted == -1: pre_jixing = 'Negative'
+
+    return pre_jixing
+
+
+if __name__ == "__main__":
+    print predict_jixing('酒店 不好')
 
     # texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
     # cv = CountVectorizer()
     # X_train = cv.fit_transform(texts)
+    # print X_train
+    #
     # y_train = [1,2,3,4]
     # nb = naive_bayes.MultinomialNB()
+    #
     # nb.fit(X_train, y_train)
     # y_pre = nb.predict(cv.fit_transform(texts + ["cat fish bird"])) # 必须要有所有的词才可以预测，所以必须平滑
     # print y_pre
