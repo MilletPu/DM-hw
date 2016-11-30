@@ -5,6 +5,7 @@ import pandas as pd
 import jieba
 import re
 
+import xlwt
 from sklearn import naive_bayes
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -90,7 +91,7 @@ def predict_jixing(test_comment):
     nb = naive_bayes.MultinomialNB()
     nb.fit(X_train, y_train)
 
-    X_test = cv.fit_transform(texts + [test_comment]) # 训练数据没有'垃圾'这词
+    X_test = cv.fit_transform(texts + [test_comment])  # 训练数据没有'垃圾'这词
     y_predicted = nb.predict(X_test)[-1]
 
     if y_predicted == 1: pre_jixing = 'Positive'
@@ -99,13 +100,26 @@ def predict_jixing(test_comment):
     return pre_jixing
 
 
+def write_comments_to_xls():
+    book = xlwt.Workbook(encoding='utf-8', style_compression=0)
+    sheet = book.add_sheet('result', cell_overwrite_ok=True)
+    col = 0
+    a = get_all_comments()
+    for i in range(len(a.values)):
+        sheet.write(col, 0, a.values[i][0])
+        sheet.write(col, 1, 1)
+        if a.values[i][1] == 1: sheet.write(col, 2, 1)
+        if a.values[i][1] == -1: sheet.write(col, 2, 2)
+        col += 1
+    book.save(os.getcwd() + 'data.xls')
+
+
 if __name__ == "__main__":
     print predict_jixing('酒店 不好')
-
+    write_comments_to_xls()
     # texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
     # cv = CountVectorizer()
     # X_train = cv.fit_transform(texts)
-    # print X_train
     #
     # y_train = [1,2,3,4]
     # nb = naive_bayes.MultinomialNB()
