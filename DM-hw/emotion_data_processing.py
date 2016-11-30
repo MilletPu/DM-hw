@@ -121,8 +121,8 @@ if __name__ == "__main__":
     test = jieba.cut(input)
     print ('->分词结果<-：')
     pre = ' '.join(test)
-    print ('->极性预测结果<-：')
     print pre
+    print ('->极性预测结果<-：')
     print predict_jixing(pre)
 
     # texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
