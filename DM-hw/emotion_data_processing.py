@@ -115,15 +115,26 @@ def write_comments_to_xls():
 
 
 if __name__ == "__main__":
-    print predict_jixing('酒店 不好')
-    write_comments_to_xls()
+
+    print ('->输入短语<-：')
+    input = raw_input()
+    test = jieba.cut(input)
+    print ('->分词结果<-：')
+    pre = ' '.join(test)
+    print ('->极性预测结果<-：')
+    print pre
+    print predict_jixing(pre)
+
     # texts = ["dog cat fish", "dog cat cat", "fish bird", 'bird']
+    # jixings = [1,2,3,4]
     # cv = CountVectorizer()
-    # X_train = cv.fit_transform(texts)
+    # texts.append("human hehe") #
+    # jixings.append(8)
     #
-    # y_train = [1,2,3,4]
+    # X_train = cv.fit_transform(texts)
+    # y_train = jixings
     # nb = naive_bayes.MultinomialNB()
     #
     # nb.fit(X_train, y_train)
-    # y_pre = nb.predict(cv.fit_transform(texts + ["cat fish bird"])) # 必须要有所有的词才可以预测，所以必须平滑
+    # y_pre = nb.predict(cv.fit_transform(texts + ["cat fish hehe bird human"])) # 必须要有所有的词才可以预测，所以必须平滑
     # print y_pre
